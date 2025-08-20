@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Add Tutorial - Learning Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus me-2"></i>Add New Tutorial
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" id="addTutorialForm">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">
+                                <i class="fas fa-heading me-1"></i>Tutorial Title
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" 
+                                   placeholder="Enter tutorial title" required>
+                            <div class="form-text">Choose a clear, descriptive title for your tutorial.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">
+                                <i class="fas fa-align-left me-1"></i>Description
+                            </label>
+                            <textarea class="form-control" id="description" name="description" 
+                                      rows="4" placeholder="Describe what this tutorial covers..." required></textarea>
+                            <div class="form-text">Provide a detailed description of what students will learn.</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="video_url" class="form-label">
+                                <i class="fas fa-video me-1"></i>Video URL
+                            </label>
+                            <input type="url" class="form-control" id="video_url" name="video_url" 
+                                   placeholder="https://www.youtube.com/watch?v=..." required>
+                            <div class="form-text">
+                                Enter the full URL of your video (YouTube, Vimeo, or other video platforms).
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Create Tutorial
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Help Section -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-question-circle me-2"></i>Tips for Creating Great Tutorials
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-lightbulb text-warning me-2"></i>Title Tips</h6>
+                            <ul class="small text-muted">
+                                <li>Keep it concise but descriptive</li>
+                                <li>Include the main topic or skill</li>
+                                <li>Use action words when possible</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-video text-info me-2"></i>Video Tips</h6>
+                            <ul class="small text-muted">
+                                <li>Ensure good audio quality</li>
+                                <li>Use clear, step-by-step instructions</li>
+                                <li>Keep videos under 15 minutes when possible</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

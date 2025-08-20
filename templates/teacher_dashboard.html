@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard - Learning Platform{% endblock %}
+
+{% block content %}
+<div class="container dashboard">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="fas fa-tachometer-alt me-2"></i>Teacher Dashboard
+                    </h1>
+                    <p class="text-muted">Manage tutorials and monitor student engagement</p>
+                </div>
+                <div class="text-end">
+                    <h5 class="text-primary mb-1">Welcome, {{ session.username }}!</h5>
+                    <small class="text-muted">Teacher Dashboard</small>
+                    <button class="btn btn-sm btn-outline-primary ms-2" data-action="refresh" title="Refresh Data">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white-50 text-uppercase mb-1">
+                                Total Tutorials
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-white">{{ tutorials|length }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-book fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white-50 text-uppercase mb-1">
+                                Total Interactions
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-white">{{ stats|length }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white-50 text-uppercase mb-1">
+                                Active Students
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-white">
+                                {{ stats|map(attribute='student_name')|unique|list|length }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-white-50 text-uppercase mb-1">
+                                Quick Actions
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-white">
+                                <a href="{{ url_for('add_tutorial_page') }}" class="text-white text-decoration-none">
+                                    <i class="fas fa-plus me-1"></i>Add Tutorial
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-plus-circle fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorials Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-book me-2"></i>Your Tutorials
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if tutorials %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tutorial in tutorials %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ tutorial.title }}</strong>
+                                    </td>
+                                    <td>
+                                        {{ tutorial.description[:50] }}{% if tutorial.description|length > 50 %}...{% endif %}
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">
+                                            {{ tutorial.created_at.split(' ')[0] if tutorial.created_at else 'N/A' }}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('view_tutorial', tutorial_id=tutorial.id) }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye me-1"></i>View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No Tutorials Yet</h5>
+                        <p class="text-muted">Start by adding your first tutorial!</p>
+                        <a href="{{ url_for('add_tutorial_page') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Add Your First Tutorial
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Interaction Statistics -->
+    {% if stats %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Student Interaction Statistics
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tutorial</th>
+                                    <th>Student</th>
+                                    <th>Interaction Type</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for stat in stats %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ stat.title }}</strong>
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-user me-1"></i>{{ stat.student_name }}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if stat.interaction_type == 'play' else 'warning' if stat.interaction_type == 'pause' else 'info' }}">
+                                            <i class="fas fa-{{ 'play' if stat.interaction_type == 'play' else 'pause' if stat.interaction_type == 'pause' else 'redo' }} me-1"></i>
+                                            {{ stat.interaction_type|title }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong>{{ stat.count }}</strong>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
