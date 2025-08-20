@@ -45,7 +45,6 @@ student-learning-platform/
 ├── app.py                 # Main Flask application
 ├── requirements.txt       # Python dependencies
 ├── run.py                # Startup script
-├── demo.py               # Demo data generator
 ├── README.md             # Project documentation
 ├── .gitignore            # Git ignore rules
 ├── learning_platform.db  # SQLite database
@@ -266,25 +265,3 @@ The application runs in debug mode by default. For production:
 app.run(debug=False, host='0.0.0.0', port=5000)
 ```
 
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📞 Support
-
-For questions or issues:
-1. Check the troubleshooting section
-2. Review the code comments
-3. Create an issue in the repository
-
----
-
-**Happy Learning! 🎓**
